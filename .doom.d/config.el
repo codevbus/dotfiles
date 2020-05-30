@@ -45,6 +45,7 @@
 (setq inhibit-splash-screen t)
 (transient-mark-mode 1)
 (setq shell-file-name "/usr/local/bin/zsh")
+(global-auto-revert-mode t)
 
 ;; Org config
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
@@ -52,6 +53,8 @@
 (setq org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-return-follows-link t)
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 
 (setq org-capture-templates
       `(("w" "Work Task" entry (file+headline ,(concat org-local "inbox.org") "Tasks")
