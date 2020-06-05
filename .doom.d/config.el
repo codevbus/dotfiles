@@ -88,6 +88,13 @@
   :config
   (setq org-journal-date-prefix "#+TITLE: "
         org-journal-file-format "journal-%Y-%m-%d.org"
-        org-journal-dir org-shared
+        org-journal-dir (concat org-shared "2b/org")
         org-journal-carryover-items nil
         org-journal-date-format "%Y-%m-%d"))
+
+;; Deft
+(use-package! deft
+  :config
+  (setq deft-extensions '("txt" "tex" "md" "org")
+        deft-directory org-shared
+        deft-recursive t))
