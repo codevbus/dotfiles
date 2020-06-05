@@ -79,3 +79,15 @@
   :init
   (setq org-roam-directory (concat org-shared "2b/org")
         org-roam-db-location "~/org-roam.db"))
+
+;; Org journal
+(use-package! org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry)
+  ("C-c n t" . org-journal-today)
+  :config
+  (setq org-journal-date-prefix "#+TITLE: "
+        org-journal-file-format "journal-%Y-%m-%d.org"
+        org-journal-dir org-shared
+        org-journal-carryover-items nil
+        org-journal-date-format "%Y-%m-%d"))
