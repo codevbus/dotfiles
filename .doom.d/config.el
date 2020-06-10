@@ -48,25 +48,26 @@
 (global-auto-revert-mode t)
 
 ;; Org config
-(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-(setq org-refile-use-outline-path t)
-(setq org-outline-path-complete-in-steps nil)
-(setq org-refile-allow-creating-parent-nodes 'confirm)
-(setq org-return-follows-link t)
-(setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+(after! org
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+  (setq org-refile-use-outline-path t)
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+  (setq org-return-follows-link t)
+  (setq org-todo-keywords
+        '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 
-(setq org-capture-templates
-      `(("w" "Work Task" entry (file+headline ,(concat org-local "inbox.org") "Tasks")
-	 "* TODO %?")
-	("n" "Work Note" entry (file+headline ,(concat org-local "inbox.org") "Notes")
-	 "* %?")
-	("t" "Personal Todo" entry (file+headline ,(concat org-shared "inbox.org") "To-do")
-	 "* TODO %?")
-	("c" "Code Task" entry (file+headline ,(concat org-local "inbox.org") "Tasks")
-	 "* TODO %?\n %i\n  %a")
-	("l" "link" entry (file+headline, (concat org-shared "inbox.org") "Resources")
-	 "** TODO %(org-cliplink-capture) \n CREATED: %t\n" :immediate-finish t)))
+  (setq org-capture-templates
+        `(("w" "Work Task" entry (file+headline ,(concat org-local "inbox.org") "Tasks")
+  	 "* TODO %?")
+  	("n" "Work Note" entry (file+headline ,(concat org-local "inbox.org") "Notes")
+  	 "* %?")
+  	("t" "Personal Todo" entry (file+headline ,(concat org-shared "inbox.org") "To-do")
+  	 "* TODO %?")
+  	("c" "Code Task" entry (file+headline ,(concat org-local "inbox.org") "Tasks")
+  	 "* TODO %?\n %i\n  %a")
+  	("l" "link" entry (file+headline, (concat org-shared "inbox.org") "Resources")
+  	 "** TODO %(org-cliplink-capture) \n CREATED: %t\n" :immediate-finish t))))
 
 ;; Org cliplink
 (use-package! org-cliplink)
@@ -78,7 +79,17 @@
   (after-init . org-roam-mode)
   :init
   (setq org-roam-directory (concat org-shared "2b/org")
-        org-roam-db-location "~/org-roam.db"))
+        org-roam-db-location "~/org-roam.db"
+        org-roam-graph-executable "/usr/local/bin/neato"
+        org-roam-graph-extra-config '(("overlap" . "false") ("splines" . "false"))
+        org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "in-progress")
+        org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
+
+;; Company Org roam
+(use-package! company-org-roam
+  :after org-roam
+  :config
+  (push 'company-org-roam company-backends))
 
 ;; Org journal
 (use-package! org-journal

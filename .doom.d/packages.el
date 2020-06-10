@@ -50,3 +50,4 @@
 ;(unpin! t)
 (package! org-cliplink)
 (package! org-journal)
+(package! company-org-roam)
