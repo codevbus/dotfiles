@@ -87,14 +87,14 @@
   :config
   (org-roam-mode +1)
   (require 'org-roam-protocol)
-  (setq org-roam-capture-templates
+  (setq org-roam-capture-ref-templates
         '(("d" "default" plain (function org-roam-capture--get-point)
-           "%?"
+           "\n\n- %?"
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
            :head "#+title: ${title}
 #+roam_key: ${ref}
-#+roam_tags: to-process"
-           :unarrowed t))))
+#+roam_tags: \"to-process\""
+           :unnarrowed t))))
 
 ;; Company Org roam
 (use-package! company-org-roam
@@ -105,6 +105,9 @@
 ;; org-roam-protocol
 (use-package! org-roam-protocol
   :after org-protocol)
+
+;; Org-roam server
+(use-package! org-roam-server)
 
 ;; Org journal
 (use-package! org-journal

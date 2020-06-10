@@ -51,3 +51,5 @@
 (package! org-cliplink)
 (package! org-journal)
 (package! company-org-roam)
+(package! org-roam-server
+  :recipe (:host github :repo "org-roam/org-roam-server"))
