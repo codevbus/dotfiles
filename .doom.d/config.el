@@ -83,13 +83,28 @@
         org-roam-graph-executable "/usr/local/bin/neato"
         org-roam-graph-extra-config '(("overlap" . "false") ("splines" . "false"))
         org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "in-progress")
-        org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
+        org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox")
+  :config
+  (org-roam-mode +1)
+  (require 'org-roam-protocol)
+  (setq org-roam-capture-templates
+        '(("d" "default" plain (function org-roam-capture--get-point)
+           "%?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}
+#+roam_key: ${ref}
+#+roam_tags: to-process"
+           :unarrowed t))))
 
 ;; Company Org roam
 (use-package! company-org-roam
   :after org-roam
   :config
   (push 'company-org-roam company-backends))
+
+;; org-roam-protocol
+(use-package! org-roam-protocol
+  :after org-protocol)
 
 ;; Org journal
 (use-package! org-journal
