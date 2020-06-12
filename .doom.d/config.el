@@ -51,6 +51,7 @@
 (after! org
   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
   (setq org-refile-use-outline-path t)
+  (setq org-hide-emphasis-markers t)
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-return-follows-link t)
