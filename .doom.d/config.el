@@ -138,3 +138,15 @@
   (setq deft-extensions '("txt" "tex" "md" "org")
         deft-directory org-shared
         deft-recursive t))
+
+;; lsp
+(use-package! lsp-mode
+  :commands
+  lsp)
+
+(use-package! lsp-ui
+  :after lsp-mode
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-use-childframe t)
+  :commands (lsp-ui-mode lsp-ui-imenu-enable))
