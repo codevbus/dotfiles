@@ -144,9 +144,12 @@
   :commands
   lsp)
 
-(use-package! lsp-ui
-  :after lsp-mode
+(use-package! company-lsp
   :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-childframe t)
-  :commands (lsp-ui-mode lsp-ui-imenu-enable))
+  (push 'company-lsp company-backends))
+
+(use-package! lsp-ui
+  :after lsp-mode)
+
+(after! lsp-ui
+  (setq lsp-ui-doc-enable t))
