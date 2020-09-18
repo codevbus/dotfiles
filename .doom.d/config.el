@@ -33,7 +33,8 @@
 (setq org-local "~/Documents/org/")
 (setq org-shared "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
 (setq org-agenda-files (list org-local
-			     (concat org-shared "inbox.org")))
+			                       (concat org-shared "inbox.org")
+                             (concat org-shared "projects.org")))
 (setq org-refile-targets '((nil :maxlevel . 9)
       (org-agenda-files :maxlevel . 9)))
 
@@ -80,10 +81,12 @@
   (after-init . org-roam-mode)
   :init
   (setq org-roam-directory (concat org-shared "2b/org")
+        org-roam-completion-system 'default
+        org-roam-completion-everywhere t
         org-roam-db-location "~/org-roam.db"
         org-roam-graph-executable "/usr/local/bin/neato"
         org-roam-graph-extra-config '(("overlap" . "false") ("splines" . "false"))
-        org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "in-progress")
+        org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "to-process")
         org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox")
   :config
   (org-roam-mode +1)
@@ -107,18 +110,14 @@
 - tags ::"
            :unnarrowed t))))
 
-;; Company Org roam
-(use-package! company-org-roam
-  :after org-roam
-  :config
-  (push 'company-org-roam company-backends))
-
 ;; org-roam-protocol
 (use-package! org-roam-protocol
   :after org-protocol)
 
 ;; Org-roam server
-(use-package! org-roam-server)
+(use-package! org-roam-server
+  :config
+  (setq org-roam-server-network-poll nil))
 
 ;; Org journal
 (use-package! org-journal
@@ -141,15 +140,13 @@
 
 ;; lsp
 (use-package! lsp-mode
-  :commands
-  lsp)
+  :commands (lsp))
 
 (use-package! company-lsp
   :config
   (push 'company-lsp company-backends))
 
 (use-package! lsp-ui
-  :after lsp-mode)
-
-(after! lsp-ui
-  (setq lsp-ui-doc-enable t))
+  :after lsp-mode
+  (setq lsp-ui-peek-enable t
+        lsp-ui-imenu-enable t))
