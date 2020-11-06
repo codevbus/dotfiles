@@ -1,5 +1,4 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
@@ -33,14 +32,15 @@
 (setq org-local "~/Documents/org/")
 (setq org-shared "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
 (setq org-agenda-files (list org-local
-			                       (concat org-shared "inbox.org")
-                             (concat org-shared "projects.org")))
+                       (concat org-shared "inbox.org")
+                       (concat org-shared "projects.org")))
 (setq org-refile-targets '((nil :maxlevel . 9)
       (org-agenda-files :maxlevel . 9)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
+(apply #'set-face-attribute '(line-number nil :foreground "#B0BEC5"))
 
 ;; General config
 (setq inhibit-splash-screen t)
@@ -81,7 +81,6 @@
   (after-init . org-roam-mode)
   :init
   (setq org-roam-directory (concat org-shared "2b/org")
-        org-roam-completion-system 'default
         org-roam-completion-everywhere t
         org-roam-db-location "~/org-roam.db"
         org-roam-graph-executable "/usr/local/bin/neato"
@@ -140,13 +139,41 @@
 
 ;; lsp
 (use-package! lsp-mode
+  :ensure t
   :commands (lsp))
 
 (use-package! company-lsp
   :config
   (push 'company-lsp company-backends))
 
+;; Complements `find-defintions' (which is `g d')
+(define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
+
 (use-package! lsp-ui
-  :after lsp-mode
-  (setq lsp-ui-peek-enable t
-        lsp-ui-imenu-enable t))
+  :after lsp-mode)
+
+(after! lsp-ui
+  (define-key lsp-ui-peek-mode-map (kbd "j") 'lsp-ui-peek--select-next)
+  (define-key lsp-ui-peek-mode-map (kbd "k") 'lsp-ui-peek--select-prev)
+  (define-key lsp-ui-peek-mode-map (kbd "C-k") 'lsp-ui-peek--select-prev-file)
+  (define-key lsp-ui-peek-mode-map (kbd "C-j") 'lsp-ui-peek--select-next-file)
+
+  (setq lsp-ui-peek-fontify 'always
+        lsp-ui-peek-list-width 50
+        lsp-ui-peek-peek-height 40
+
+        lsp-ui-doc-enable t
+        ;; Prevents LSP peek to disappear when mouse touches it
+        lsp-ui-doc-show-with-mouse nil
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-delay 0.5
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-max-width 100
+        lsp-ui-doc-max-height 40
+
+        ;; This is just annoying, really
+        lsp-ui-sideline-enable nil))
+
+;; Languages
+(use-package! groovy-mode
+  :mode "\\.groovy\\'")

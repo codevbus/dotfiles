@@ -56,3 +56,4 @@
 (package! company-lsp)
 (unpin! org-roam)
 (package! py-isort)
+(package! groovy-mode)
