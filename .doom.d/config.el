@@ -20,7 +20,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Source Code Pro For Powerline" :size 14))
+(setq doom-font (font-spec :family "JuliaMono" :size 14))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -93,7 +93,7 @@
   (setq org-roam-capture-templates
         '(("d" "default" plain (function org-roam-capture--get-point)
            "\n\n- %?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :file-name "${slug}"
            :head "#+title: ${title}
 #+roam_key: ${slug}
 #+roam_tags: \"note\"
@@ -102,7 +102,7 @@
   (setq org-roam-capture-ref-templates
         '(("d" "default" plain (function org-roam-capture--get-point)
            "\n\n- %?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :file-name "${slug}"
            :head "#+title: ${title}
 #+roam_key: ${ref}
 #+roam_tags: \"to-process\"
@@ -139,12 +139,9 @@
 
 ;; lsp
 (use-package! lsp-mode
-  :ensure t
   :commands (lsp))
 
-(use-package! company-lsp
-  :config
-  (push 'company-lsp company-backends))
+(use-package! company-lsp)
 
 ;; Complements `find-defintions' (which is `g d')
 (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
