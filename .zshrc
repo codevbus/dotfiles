@@ -29,23 +29,11 @@ BULLETTRAIN_GO_FG=black
 BULLETTRAIN_DIR_FG=black
 BULLETTRAIN_RUBY_FG=black
 
-
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-#GO stuff
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-
-#python stuff
-export PIPENV_VENV_IN_PROJECT=1
-export PYENV_ROOT=$HOME/.pyenv
-export WORKON_HOME=$HOME/.virtualenvs
-
-export PATH=/usr/local/opt/gettext/bin:/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:$HOME/scripts:$GOBIN:$PYENV_ROOT/bin:~/.emacs.d/bin:$PATH
 
 #NVM specific config
 export NVM_DIR="$HOME/.nvm"
@@ -74,8 +62,8 @@ if _has exa; then
   alias ls='exa'
 fi
 
-if _has bat; then
-  alias cat='bat'
+if _has batcat; then
+  alias cat='batcat'
 fi
 
 alias myip='curl "https://api.ipify.org?format=json"'
@@ -88,8 +76,8 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-#virtualenv
-source $HOME/.pyenv/versions/3.7.6/bin/virtualenvwrapper.sh
+#virtualenvwrapper
+source "${HOME}/.pyenv/versions/3.9.2/bin/virtualenvwrapper.sh"
 
 # source local-specific config
 source "${HOME}/.config/local.zsh"

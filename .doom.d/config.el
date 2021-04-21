@@ -20,18 +20,19 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "JuliaMono" :size 14))
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 14))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-material)
+(setq doom-theme 'doom-oceanic-next)
+(setq doom-themes-treemacs-theme "doom-colors")
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-local "~/Documents/org/")
-(setq org-shared "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
-(setq org-agenda-files (list org-local
+(setq org-shared "~/Dropbox/beorg/org/")
+(setq org-agenda-files (list org-local (concat org-shared "freelance/")
                        (concat org-shared "inbox.org")
                        (concat org-shared "projects.org")))
 (setq org-refile-targets '((nil :maxlevel . 9)
@@ -45,7 +46,7 @@
 ;; General config
 (setq inhibit-splash-screen t)
 (transient-mark-mode 1)
-(setq shell-file-name "/usr/local/bin/zsh")
+(setq shell-file-name "/usr/bin/zsh")
 (global-auto-revert-mode t)
 
 ;; Org config
@@ -56,6 +57,7 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-return-follows-link t)
+  (setq org-clock-into-drawer t)
   (setq org-todo-keywords
         '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 
@@ -72,7 +74,8 @@
   	 "** TODO %(org-cliplink-capture) \n CREATED: %t\n" :immediate-finish t))))
 
 ;; Org cliplink
-(use-package! org-cliplink)
+(use-package! org-cliplink
+  :after org)
 
 ;; Org roam
 (use-package! org-roam
@@ -83,10 +86,10 @@
   (setq org-roam-directory (concat org-shared "2b/org")
         org-roam-completion-everywhere t
         org-roam-db-location "~/org-roam.db"
-        org-roam-graph-executable "/usr/local/bin/neato"
+        org-roam-graph-executable "/usr/bin/neato"
         org-roam-graph-extra-config '(("overlap" . "false") ("splines" . "false"))
         org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "to-process")
-        org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox")
+        org-roam-graph-viewer "/usr/bin/firefox")
   :config
   (org-roam-mode +1)
   (require 'org-roam-protocol)
@@ -115,11 +118,13 @@
 
 ;; Org-roam server
 (use-package! org-roam-server
+  :after org-roam
   :config
   (setq org-roam-server-network-poll nil))
 
 ;; Org journal
 (use-package! org-journal
+  :after org
   :bind
   ("C-c n j" . org-journal-new-entry)
   ("C-c n t" . org-journal-today)
@@ -141,7 +146,7 @@
 (use-package! lsp-mode
   :commands (lsp))
 
-(use-package! company-lsp)
+(use-package! company-capf)
 
 ;; Complements `find-defintions' (which is `g d')
 (define-key evil-normal-state-map (kbd "g f") 'lsp-ui-peek-find-references)
