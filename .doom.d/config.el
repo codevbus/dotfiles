@@ -31,10 +31,11 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-local "~/Documents/org/")
-(setq org-shared "~/Dropbox/beorg/org/")
-(setq org-agenda-files (list org-local (concat org-shared "freelance/")
-                       (concat org-shared "inbox.org")
-                       (concat org-shared "projects.org")))
+(setq org-pkm "~/Dropbox/beorg/org/")
+(setq org-projects "~/Dropbox/org/")
+(setq org-agenda-files (list org-local (concat org-projects "freelance/")
+                       (concat org-pkm "inbox.org")
+                       (concat org-projects "projects.org")))
 (setq org-refile-targets '((nil :maxlevel . 9)
       (org-agenda-files :maxlevel . 9)))
 
@@ -66,11 +67,11 @@
   	 "* TODO %?")
   	("n" "Work Note" entry (file+headline ,(concat org-local "inbox.org") "Notes")
   	 "* %?")
-  	("t" "Personal Todo" entry (file+headline ,(concat org-shared "inbox.org") "To-do")
+  	("t" "Personal Todo" entry (file+headline ,(concat org-pkm "inbox.org") "To-do")
   	 "* TODO %?")
   	("c" "Code Task" entry (file+headline ,(concat org-local "inbox.org") "Tasks")
   	 "* TODO %?\n %i\n  %a")
-  	("l" "link" entry (file+headline, (concat org-shared "inbox.org") "Resources")
+  	("l" "link" entry (file+headline, (concat org-pkm "inbox.org") "Resources")
   	 "** TODO %(org-cliplink-capture) \n CREATED: %t\n" :immediate-finish t))))
 
 ;; Org cliplink
@@ -83,12 +84,12 @@
   :hook
   (after-init . org-roam-mode)
   :init
-  (setq org-roam-directory (concat org-shared "2b/org")
+  (setq org-roam-directory (concat org-pkm "2b/org")
         org-roam-completion-everywhere t
         org-roam-db-location "~/org-roam.db"
         org-roam-graph-executable "/usr/bin/neato"
         org-roam-graph-extra-config '(("overlap" . "false") ("splines" . "false"))
-        org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "to-process")
+        org-roam-graph-exclude-matcher '("finished" "blog" "podcast" "article" "video" "to-process" "journal")
         org-roam-graph-viewer "/usr/bin/firefox")
   :config
   (org-roam-mode +1)
@@ -131,7 +132,7 @@
   :config
   (setq org-journal-date-prefix "#+TITLE: "
         org-journal-file-format "journal-%Y-%m-%d.org"
-        org-journal-dir (concat org-shared "2b/org")
+        org-journal-dir (concat org-pkm "2b/org")
         org-journal-carryover-items nil
         org-journal-date-format "%Y-%m-%d"))
 
@@ -139,7 +140,7 @@
 (use-package! deft
   :config
   (setq deft-extensions '("txt" "tex" "md" "org")
-        deft-directory org-shared
+        deft-directory org-pkm
         deft-recursive t))
 
 ;; lsp

@@ -13,3 +13,4 @@ export PATH=/usr/local/opt/gettext/bin:/usr/local/bin:/usr/local/sbin:/usr/local
 
 # trigger caps remap
 ${HOME}/dotfiles/scripts/ctrl_remap.sh
+. "$HOME/.cargo/env"
