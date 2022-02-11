@@ -93,3 +93,9 @@
 ; Org cliplink
 (use-package! org-cliplink
   :after org)
+
+;; Org roam
+(use-package! org-roam
+  :after org
+  :init
+  (setq org-roam-directory (file-truename (concat org-pkm "2b/org"))))

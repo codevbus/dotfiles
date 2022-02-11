@@ -16,18 +16,9 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/dirhistory
   zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/sudo
-  zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
   # generate the init script from plugins above
   zgen save
 fi
-
-# Bullet train prompt settings
-BULLETTRAIN_CUSTOM_FG=black
-BULLETTRAIN_VIRTUALENV_FG=black
-BULLETTRAIN_NVM_FG=black
-BULLETTRAIN_GO_FG=black
-BULLETTRAIN_DIR_FG=black
-BULLETTRAIN_RUBY_FG=black
 
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -81,3 +72,6 @@ source "${HOME}/.pyenv/versions/3.9.2/bin/virtualenvwrapper.sh"
 
 # source local-specific config
 source "${HOME}/.config/local.zsh"
+
+# starship
+eval "$(starship init zsh)"
