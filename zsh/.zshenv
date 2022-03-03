@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/usr/bin/zsh
 
 #GO stuff
 export GOPATH=$HOME/go
