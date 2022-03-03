@@ -19,8 +19,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 12 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Hack Nerd Font Mono" :size 14))
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 14 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Hack Nerd Font" :size 16))
 (setq doom-themes-treemacs-theme "doom-colors")
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -49,6 +49,8 @@
 (transient-mark-mode 1)
 (setq shell-file-name "/usr/bin/zsh")
 (global-auto-revert-mode t)
+;; Set default transparency mode
+(add-to-list 'default-frame-alist '(alpha . 85))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
