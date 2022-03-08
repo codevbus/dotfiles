@@ -1,5 +1,7 @@
 #!/usr/local/bin/zsh
 
+# Configure ssh-agent plugin
+zstyle :omz:plugins:ssh-agent identities id_rsa git_rsa
 # load zgen
 source "${HOME}/.zgen/zgen.zsh"
 
@@ -16,6 +18,7 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/dirhistory
   zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/sudo
+  zgen oh-my-zsh plugins/ssh-agent
   # generate the init script from plugins above
   zgen save
 fi
