@@ -10,6 +10,7 @@ if ! zgen saved; then
 
   # specify plugins here
   zgen oh-my-zsh
+  zgen poetry
   zgen load zsh-users/zsh-completions
   zgen oh-my-zsh plugins/command-not-found
   zgen oh-my-zsh plugins/common-aliases
@@ -70,11 +71,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-#virtualenvwrapper
-source "${HOME}/.pyenv/versions/3.9.2/bin/virtualenvwrapper.sh"
-
 # source local-specific config
 source "${HOME}/.config/local.zsh"
 
 # starship
 eval "$(starship init zsh)"
+
+alias luamake=/home/mike/build/lua-language-server/3rd/luamake/luamake
