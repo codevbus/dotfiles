@@ -74,7 +74,7 @@ fi
 # source local-specific config
 source "${HOME}/.config/local.zsh"
 
+alias luamake="$HOME/build/lua-language-server/3rd/luamake/luamake"
+
 # starship
 eval "$(starship init zsh)"
-
-alias luamake=/home/mike/build/lua-language-server/3rd/luamake/luamake
