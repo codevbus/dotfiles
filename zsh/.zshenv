@@ -1,5 +1,8 @@
 #/usr/bin/zsh
 
+#EDITOR
+export EDITOR=nvim
+
 #GO stuff
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
