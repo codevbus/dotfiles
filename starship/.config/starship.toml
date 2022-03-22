@@ -1,0 +1,47 @@
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$python\
+$aws\
+$time
+$character"""
+
+add_newline = false
+
+[character]
+success_symbol = "[➜](bold green)"
+
+[aws]
+disabled = false
+format = 'on [$symbol($profile )(\($region\) )(\[$duration\])]($style)'
+style = "bold yellow"
+symbol = "☁️ "
+
+[python]
+format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+version_format = "v${raw}"
+style = "yellow bold"
+pyenv_version_name = true
+symbol = "🐍 "
+detect_extensions = ["py"]
+detect_files = [".python-version", "Pipfile", "__init__.py", "pyproject.toml", "requirements.txt", "setup.py", "tox.ini"]
+
+[terraform]
+disabled = true
+format = "via [$symbol$version]($style) "
+version_format = "v${raw}"
+style = "bold 105"
+symbol = "💠"
+detect_extensions = ["tf", "tfplan", "tfstate"]
+detect_folders = [".terraform"]
+
+[time]
+disabled = false
+format = '[ $time ]($style) '
+time_format = "%T"
+utc_time_offset = "-4"
