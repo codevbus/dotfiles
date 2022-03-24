@@ -7,6 +7,7 @@ $git_commit\
 $git_state\
 $git_status\
 $python\
+$ruby\
 $aws\
 $time
 $character"""
