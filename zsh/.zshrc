@@ -78,3 +78,6 @@ alias luamake="$HOME/build/lua-language-server/3rd/luamake/luamake"
 
 # starship
 eval "$(starship init zsh)"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
