@@ -50,7 +50,7 @@
 (setq shell-file-name "/usr/bin/zsh")
 (global-auto-revert-mode t)
 ;; Set default transparency mode
-(add-to-list 'default-frame-alist '(alpha . 85))
+(add-to-list 'default-frame-alist '(alpha . 100))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
