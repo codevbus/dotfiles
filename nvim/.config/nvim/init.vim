@@ -43,6 +43,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'fladson/vim-kitty'
 call plug#end()
 
 colorscheme onedark
