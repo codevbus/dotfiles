@@ -36,8 +36,9 @@ end
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.terraformls.setup{}
 require'lspconfig'.sumneko_lua.setup{}
+require'lspconfig'.solargraph.setup{}
 
-local servers = { 'pylsp', 'terraformls' }
+local servers = { 'pylsp', 'terraformls', 'solargraph' }
 for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
         capabilities = capabilities,

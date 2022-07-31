@@ -71,6 +71,8 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+precmd () {print -Pn "\e]0;%~\a"}
+
 # source local-specific config
 source "${HOME}/.config/local.zsh"
 
@@ -79,5 +81,5 @@ alias luamake="$HOME/build/lua-language-server/3rd/luamake/luamake"
 # starship
 eval "$(starship init zsh)"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+# asdf(for ruby)
+. /usr/local/opt/asdf/libexec/asdf.sh

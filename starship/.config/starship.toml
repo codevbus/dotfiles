@@ -8,6 +8,7 @@ $git_state\
 $git_status\
 $python\
 $ruby\
+$nodejs\
 $aws\
 $time
 $character"""
@@ -31,6 +32,9 @@ pyenv_version_name = true
 symbol = "🐍 "
 detect_extensions = ["py"]
 detect_files = [".python-version", "Pipfile", "__init__.py", "pyproject.toml", "requirements.txt", "setup.py", "tox.ini"]
+
+[nodejs]
+format = "via [$symbol($version )]($style)"
 
 [terraform]
 disabled = true

@@ -47,7 +47,10 @@
 ;; General config
 (setq inhibit-splash-screen t)
 (transient-mark-mode 1)
-(setq shell-file-name "/usr/bin/zsh")
+(if (eq system-type 'darwin)
+    (setq shell-file-name "/bin/zsh")
+    (setq shell-file-name "/usr/bin/zsh"))
+
 (global-auto-revert-mode t)
 ;; Set default transparency mode
 (add-to-list 'default-frame-alist '(alpha . 100))
@@ -68,6 +71,9 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; Projectile
+(setq projectile-project-search-path '("~/cl-build/"))
 
 ;; Org config
 (after! org
