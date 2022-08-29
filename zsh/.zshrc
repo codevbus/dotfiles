@@ -2,6 +2,7 @@
 
 # Configure ssh-agent plugin
 zstyle :omz:plugins:ssh-agent identities id_rsa git_rsa
+
 # load zgen
 source "${HOME}/.zgen/zgen.zsh"
 
@@ -30,11 +31,6 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
-#NVM specific config
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 #FZF
 # Returns whether the given command is executable or aliased.
 _has() {
@@ -57,8 +53,8 @@ if _has exa; then
   alias ls='exa'
 fi
 
-if _has batcat; then
-  alias cat='batcat'
+if _has bat; then
+  alias cat='bat'
 fi
 
 alias myip='curl "https://api.ipify.org?format=json"'
@@ -83,3 +79,7 @@ eval "$(starship init zsh)"
 
 # asdf(for ruby)
 . /usr/local/opt/asdf/libexec/asdf.sh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
