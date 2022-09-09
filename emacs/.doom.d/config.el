@@ -102,3 +102,10 @@
   :after org
   :init
   (setq org-roam-directory (file-truename (concat org-pkm "2b/org"))))
+
+;; Python
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
