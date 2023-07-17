@@ -1,0 +1,12 @@
+#!/usr/local/bin/zsh
+
+ohmyzsh/ohmyzsh path:plugins/ssh-agent
+romkatv/powerlevel10k
+
+mattmc3/zephyr path:plugins/completion
+belak/zsh-utils path:history
+
+mattmc3/zfunctions
+zsh-users/zsh-autosuggestions
+zdharma-continuum/fast-syntax-highlighting kind:defer
+zsh-users/zsh-history-substring-search

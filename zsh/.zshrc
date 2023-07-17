@@ -1,96 +1,83 @@
 #!/usr/local/bin/zsh
 
-# Configure ssh-agent plugin
-zstyle :omz:plugins:ssh-agent identities id_rsa git_rsa
-# load zgen
-source "${HOME}/.zgen/zgen.zsh"
-
-# if the init script doesn't exist
-if ! zgen saved; then
-
-  # specify plugins here
-  zgen oh-my-zsh
-  zgen poetry
-  zgen load zsh-users/zsh-completions
-  zgen oh-my-zsh plugins/command-not-found
-  zgen oh-my-zsh plugins/common-aliases
-  zgen oh-my-zsh plugins/compleat
-  zgen oh-my-zsh plugins/dircycle
-  zgen oh-my-zsh plugins/dirhistory
-  zgen oh-my-zsh plugins/git
-  zgen oh-my-zsh plugins/sudo
-  zgen oh-my-zsh plugins/ssh-agent
-  # generate the init script from plugins above
-  zgen save
-fi
-
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-#NVM specific config
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#FZF
-# Returns whether the given command is executable or aliased.
-_has() {
-  return $( whence $1 >/dev/null )
-}
-
-# fzf + ag configuration
-if _has fzf && _has rg; then
-  export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git}/*" 2> /dev/null'
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_DEFAULT_OPTS='
-  --color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
-  --color info:108,prompt:109,spinner:108,pointer:168,marker:168
-  '
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # aliases
-if _has exa; then
-  alias ls='exa'
-fi
+#if _has exa; then
+alias ls='exa'
+#fi
+#
+#if _has batcat; then
+alias cat='bat'
+#fi
 
-if _has batcat; then
-  alias cat='batcat'
-fi
+alias history='fc -l 1'
+
+zstyle ':antidote:bundle' use-friendly-names on
+zstyle ':ohmyzsh:plugins:ssh-agent' agent-forwarding yes identities id_rsa git_rsa
+
+# source antidote
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+
+# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
+antidote load
 
 alias myip='curl "https://api.ipify.org?format=json"'
-
-# load zsh-syntax-highlighting last as specified
-zgen load zsh-users/zsh-syntax-highlighting
 
 #pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
 # source local-specific config
 source "${HOME}/.config/local.zsh"
 
-# starship
-eval "$(starship init zsh)"
-
 alias luamake=/home/mike/build/lua-language-server/3rd/luamake/luamake
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/mike/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/mike/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/mike/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/mike/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# hist config
+# https://www.reddit.com/r/zsh/comments/13jg6ru/nomyzsh_killed_my_history/jkg04xo/
+zopts_hist=(
+  bang_hist
+  extended_history
+  hist_expire_dups_first
+  hist_find_no_dups
+  hist_ignore_all_dups
+  hist_ignore_dups
+  hist_ignore_space
+  hist_reduce_blanks
+  hist_save_no_dups
+  hist_verify
+  inc_append_history
+  NO_hist_beep
+  NO_share_history
+)
+setopt $zopts_hist
 
+## hist file location
+export HISTFILE=$HOME/.zsh_history
+# the detailed meaning of the below three variable can be found in `man zshparam`.
+export HISTSIZE=1000000   # the number of items for the internal history list
+export SAVEHIST=1000000   # maximum number of items for the history file
+export HISTTIMEFORMAT="[%F %T] "
+
+# The meaning of these options can be found in man page of `zshoptions`.
+setopt HIST_IGNORE_ALL_DUPS  # do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
+setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
+setopt EXTENDED_HISTORY  # record command start time
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
