@@ -43,11 +43,11 @@ font pango:Hack Nerd Font Mono 12
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # start picom compositor
-exec --no-startup-id picom -CGb
+exec --no-startup-id picom -b
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-#exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet
 
 # Start bluetooth applet
 exec --no-startup-id blueman-applet
@@ -68,6 +68,7 @@ exec --no-startup-id /usr/sbin/libvirtd
 exec --no-startup-id sh -c '/usr/bin/nvidia-settings --load-config-only'
 
 # Set background/wallpaper
+exec --no-startup-id nitrogen --restore
 exec --no-startup-id nitrogen --restore
 
 # Start polybar
@@ -114,6 +115,9 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec --no-startup-id kitty --single-instance tmux new-session -A -s main
+
+# start a non-tmux bound terminal
+bindsym $mod+Shift+Return exec --no-startup-id kitty --single-instance 
 
 # kill focused window
 bindsym $mod+Shift+q kill
