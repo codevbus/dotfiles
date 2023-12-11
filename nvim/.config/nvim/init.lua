@@ -130,13 +130,9 @@ require('lazy').setup({
   },
   {
     -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {},
   },
 
   -- "gc" to comment visual regions/lines
@@ -254,6 +250,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
+  pickers = {
+    colorscheme = {
+      enable_preview = true
+    }
+  },
   defaults = {
     mappings = {
       i = {
@@ -273,7 +274,7 @@ vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { d
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
+    winblend = 1,
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
@@ -290,8 +291,14 @@ require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
+  sync_install = false,
+
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
+
+  ignore_install = {},
+
+  modules = {},
 
   highlight = { enable = true },
   indent = { enable = true },
@@ -401,6 +408,9 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+require('mason').setup()
+require('mason-lspconfig').setup()
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -408,7 +418,30 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   -- clangd = {},
-  gopls = {},
+  gopls = {
+    gopls = {
+      gofumpt = true,
+      codelenses = {
+        run_govulncheck = true,
+        test = true,
+        vendor = true,
+      },
+      hints = {
+        assignVariableTypes = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableNames = true,
+      },
+      analyses = {
+        unusedparams = true,
+      },
+      usePlaceholders = true,
+      completeUnimported = true,
+      directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+      staticcheck = true,
+    },
+  },
+
   pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},

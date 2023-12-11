@@ -11,7 +11,12 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    priority = 1000
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        transparent_background = true,
+      })
+    end
   },
   {
     -- Set lualine as statusline
@@ -19,17 +24,27 @@ return {
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'catppuccin-mocha',
         component_separators = '|',
         section_separators = '',
       },
+      sections = {
+        lualine_c = {
+          {
+          'filename',
+          path = 1,
+          }
+        }
+      }
     },
   },
-
-  "christoomey/vim-tmux-navigator",
-
-vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' })
-
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enable = true,
+  },
+  {
+    "christoomey/vim-tmux-navigator",
+  },
 }
 
