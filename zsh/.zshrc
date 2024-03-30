@@ -9,7 +9,7 @@ fi
 
 # aliases
 #if _has exa; then
-alias ls='exa'
+alias ls='eza'
 #fi
 #
 #if _has batcat; then
@@ -19,7 +19,6 @@ alias cat='bat'
 alias history='fc -l 1'
 
 zstyle ':antidote:bundle' use-friendly-names on
-zstyle ':ohmyzsh:plugins:ssh-agent' agent-forwarding yes identities id_rsa git_rsa
 
 # source antidote
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
@@ -27,7 +26,7 @@ source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 # initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
 antidote load
 
-alias myip='curl "https://api.ipify.org?format=json"'
+alias myip='curl -s "https://api.ipify.org?format=json" | jq -r .ip | tee >(xclip -selection clipboard)'
 
 #pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
