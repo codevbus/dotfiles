@@ -46,6 +46,7 @@
 (setq org-projects "~/Dropbox/org/")
 (setq org-agenda-files (list org-local (concat org-projects "freelance/")
                        (concat org-pkm "inbox.org")
+                       (concat org-pkm "contentsprocket.org")
                        (concat org-projects "projects.org")))
 (setq org-refile-targets '((nil :maxlevel . 9)
       (org-agenda-files :maxlevel . 9)))
@@ -54,18 +55,14 @@
 ;; General config
 (setq inhibit-splash-screen t)
 (transient-mark-mode 1)
-(if (eq system-type 'darwin)
-    (setq shell-file-name "/bin/zsh")
-    (setq shell-file-name "/usr/bin/zsh"))
+(setq shell-file-name "/bin/zsh")
 
 (global-auto-revert-mode t)
 ;; Set default transparency mode
 (add-to-list 'default-frame-alist '(alpha . 85))
 
-(use-package autothemer
-  :ensure t)
-
-(load-theme 'catppuccin-mocha t)
+(setq doom-theme 'catppuccin)
+(setq catppuccin-flavor 'mocha)
 (setq doom-themes-treemacs-theme "doom-colors")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -114,5 +111,15 @@
         '(
           ("d" "default" plain
            "\n\n- %?"
-           :target (file+head "${slug}.org" "${title}\n")
+           :target (file+head "${slug}.org" "#+TITLE: ${title}\n")
            :unnarrowed t))))
+
+(use-package! websocket
+    :after org)
+
+(use-package! org-roam-ui
+    :after org ;; or :after o
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t))
