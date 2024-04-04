@@ -14,8 +14,28 @@ return {
   },
   {
     'catppuccin/nvim',
+    tag = 'stable',
     name = 'catppuccin',
     priority = 1000,
+    config = function()
+      require('catppuccin').setup {
+        background = { -- :h background
+          light = 'latte',
+          dark = 'mocha',
+        },
+        term_colors = true,
+        integrations = {
+          telescope = true,
+          mason = true,
+          notify = true,
+          mini = {
+            enabled = true,
+            indentscope_color = '',
+          },
+        },
+      }
+      vim.cmd.colorscheme 'catppuccin'
+    end,
   },
 
   'christoomey/vim-tmux-navigator',
