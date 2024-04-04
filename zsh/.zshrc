@@ -31,9 +31,6 @@ alias cat='bat'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-PATH="$PATH:$(pyenv root)/shims:/usr/local/bin:/usr/bin:/bin:$HOME/.local/bin"
-
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
