@@ -28,6 +28,7 @@ jobs:
         continue-on-error: true
         with:
           path: ./
+          extra_args: --only-verified
 
       - name: Scan Results Status
         if: steps.trufflehog.outcome == 'failure'
