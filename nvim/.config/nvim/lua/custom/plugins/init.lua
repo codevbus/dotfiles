@@ -23,11 +23,18 @@ return {
           light = 'latte',
           dark = 'mocha',
         },
+        transparent_background = true,
         term_colors = true,
         integrations = {
-          telescope = true,
+          telescope = {
+            enabled = true,
+          },
+          treesitter = true,
+          gitsigns = true,
           mason = true,
           notify = true,
+          fidget = true,
+          noice = true,
           mini = {
             enabled = true,
             indentscope_color = '',
@@ -37,8 +44,12 @@ return {
       vim.cmd.colorscheme 'catppuccin'
     end,
   },
+  {
+    'github/copilot.vim',
+  },
 
   'christoomey/vim-tmux-navigator',
 
+  -- TODO move to custom commands init
   vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' }),
 }
