@@ -23,9 +23,14 @@ return {
           light = 'latte',
           dark = 'mocha',
         },
+        transparent_background = true,
         term_colors = true,
         integrations = {
-          telescope = true,
+          treesitter = true,
+          noice = true,
+          telescope = {
+            enabled = true,
+          },
           mason = true,
           notify = true,
           mini = {

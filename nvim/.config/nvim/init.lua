@@ -296,7 +296,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
+          winblend = 0,
           previewer = false,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
@@ -327,7 +327,16 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          notification = {
+            window = {
+              winblend = 0, -- Background color opacity in the notification window
+            },
+          },
+        },
+      },
 
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
