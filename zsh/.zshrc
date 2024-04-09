@@ -24,12 +24,47 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # Aliases
-alias ls='exa'
+alias ls='eza'
 alias cat='bat'
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+source $HOME/rz-jfrog-creds.sh
+
+# hist config
+# https://www.reddit.com/r/zsh/comments/13jg6ru/nomyzsh_killed_my_history/jkg04xo/
+zopts_hist=(
+  bang_hist
+  extended_history
+  hist_expire_dups_first
+  hist_find_no_dups
+  hist_ignore_all_dups
+  hist_ignore_dups
+  hist_ignore_space
+  hist_reduce_blanks
+  hist_save_no_dups
+  hist_verify
+  inc_append_history
+  NO_hist_beep
+  NO_share_history
+)
+setopt $zopts_hist
+
+## hist file location
+export HISTFILE=$HOME/.zsh_history
+# the detailed meaning of the below three variable can be found in `man zshparam`.
+export HISTSIZE=1000000   # the number of items for the internal history list
+export SAVEHIST=1000000   # maximum number of items for the history file
+export HISTTIMEFORMAT="[%F %T] "
+
+# The meaning of these options can be found in man page of `zshoptions`.
+setopt HIST_IGNORE_ALL_DUPS  # do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
+setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
+setopt EXTENDED_HISTORY  # record command start time
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
