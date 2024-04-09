@@ -8,4 +8,4 @@ export GOBIN=$GOPATH/bin
 export WORKON_HOME=$HOME/.virtualenvs
 
 #PATH
-export PATH=/opt/homebrew/bin:/usr/local/opt/gettext/bin:/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:$HOME/scripts:$GOBIN:$HOME/.config/emacs/bin:$PATH
+export PATH=/opt/homebrew/bin:/usr/local/opt/gettext/bin:/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:$HOME/scripts:$GOBIN:$HOME/.config/emacs/bin:$HOME/.local/bin/:$PATH
