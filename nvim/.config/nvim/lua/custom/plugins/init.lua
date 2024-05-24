@@ -42,7 +42,9 @@ return {
       vim.cmd.colorscheme 'catppuccin'
     end,
   },
-
+  {
+    'github/copilot.vim',
+  },
   'christoomey/vim-tmux-navigator',
 
   vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' }),
