@@ -26,6 +26,8 @@ bindkey '^[[B' history-substring-search-down
 # Aliases
 alias ls='eza'
 alias cat='bat'
+alias history='history 0'
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
@@ -66,6 +68,16 @@ setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
 setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
 setopt EXTENDED_HISTORY  # record command start time
 
+# zsh fzf
+eval "$(fzf --zsh)"
+
+#fix:https://github.com/romkatv/powerlevel10k/issues/1554#issuecomment-1701598955
+unset ZSH_AUTOSUGGEST_USE_ASYNC
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# source local.zsh for local overrides
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
