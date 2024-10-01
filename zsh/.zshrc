@@ -1,12 +1,5 @@
 #!/bin/zsh
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # source antidote
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
@@ -33,7 +26,6 @@ alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-source $HOME/rz-jfrog-creds.sh
 
 # hist config
 # https://www.reddit.com/r/zsh/comments/13jg6ru/nomyzsh_killed_my_history/jkg04xo/
@@ -52,6 +44,7 @@ zopts_hist=(
   NO_hist_beep
   NO_share_history
 )
+
 setopt $zopts_hist
 
 ## hist file location
@@ -73,9 +66,6 @@ eval "$(fzf --zsh)"
 
 #fix:https://github.com/romkatv/powerlevel10k/issues/1554#issuecomment-1701598955
 unset ZSH_AUTOSUGGEST_USE_ASYNC
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
