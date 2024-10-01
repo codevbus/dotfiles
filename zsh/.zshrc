@@ -64,10 +64,9 @@ setopt EXTENDED_HISTORY  # record command start time
 # zsh fzf
 eval "$(fzf --zsh)"
 
-#fix:https://github.com/romkatv/powerlevel10k/issues/1554#issuecomment-1701598955
-unset ZSH_AUTOSUGGEST_USE_ASYNC
-
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # source local.zsh for local overrides
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/catppuccin_mocha.omp.json)"
