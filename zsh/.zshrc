@@ -40,6 +40,11 @@ alias cat='bat'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+PATH="$PATH:$(pyenv root)/shims:/usr/local/bin:/usr/bin:/bin:$HOME/.local/bin"
 
 # fzf integration
 source <(fzf --zsh)
