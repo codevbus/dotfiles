@@ -117,12 +117,6 @@
 (use-package! org-roam-protocol
   :after org-protocol)
 
-;; Org-roam server
-(use-package! org-roam-server
-  :after org-roam
-  :config
-  (setq org-roam-server-network-poll nil))
-
 ;; Org journal
 (use-package! org-journal
   :after org
