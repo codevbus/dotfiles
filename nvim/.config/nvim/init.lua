@@ -267,7 +267,11 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -474,6 +478,34 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = {
+                  enabled = false,
+                  ignore = { 'E501' },
+                },
+                pydocstyle = { enabled = false },
+                pylint = { enabled = false },
+                flake8 = {
+                  enabled = true,
+                  ignore = { 'E501' },
+                },
+                mypy = { enabled = true },
+              },
+            },
+          },
+        },
+        ruff_lsp = {
+          init_options = {
+            settings = {
+              organizeImports = true,
+              showSyntaxErrors = true,
+              args = {},
+            },
+          },
+        },
 
         lua_ls = {
           -- cmd = {...},
