@@ -55,7 +55,13 @@
 ;; General config
 (setq inhibit-splash-screen t)
 (transient-mark-mode 1)
-(setq shell-file-name "/bin/zsh")
+;; Set shell based on operating system
+(setq shell-file-name
+      (cond
+       ((eq system-type 'darwin)     "/bin/zsh")        ; macOS
+       ((eq system-type 'gnu/linux)  "/usr/bin/zsh")    ; Linux
+       (t "/bin/sh")))                                   ; fallback for other systems
+;(setq shell-file-name "/bin/zsh")
 
 (global-auto-revert-mode t)
 ;; Set default transparency mode
@@ -104,7 +110,7 @@
 (after! org
   (setq org-roam-directory (concat org-pkm "2b/org"))); they are implemented.
 
-(after! org-roam
+(after! org-roam2
   :ensure t
   :init
   (setq org-roam-capture-templates
