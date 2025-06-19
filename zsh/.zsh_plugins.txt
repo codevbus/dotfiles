@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-romkatv/powerlevel10k
-
 zsh-users/zsh-completions path:src kind:fpath
 belak/zsh-utils path:completion
 
