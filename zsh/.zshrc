@@ -70,3 +70,5 @@ eval "$(fzf --zsh)"
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/catppuccin_mocha.omp.json)"
+
+eval "$(zoxide init zsh)"
