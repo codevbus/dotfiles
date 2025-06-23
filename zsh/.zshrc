@@ -20,12 +20,6 @@ bindkey '^[[B' history-substring-search-down
 alias ls='eza'
 alias cat='bat'
 alias history='history 0'
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
 
 # hist config
 # https://www.reddit.com/r/zsh/comments/13jg6ru/nomyzsh_killed_my_history/jkg04xo/
@@ -64,7 +58,8 @@ setopt EXTENDED_HISTORY  # record command start time
 # zsh fzf
 eval "$(fzf --zsh)"
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # source local.zsh for local overrides
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -72,3 +67,5 @@ eval "$(fzf --zsh)"
 eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/catppuccin_mocha.omp.json)"
 
 eval "$(zoxide init zsh)"
+
+eval "$(direnv hook zsh)"
