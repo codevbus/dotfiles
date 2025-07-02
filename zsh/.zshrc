@@ -1,4 +1,6 @@
 #!/bin/zsh
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 
 # source antidote
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
@@ -69,3 +71,8 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/catppuccin_mocha.o
 eval "$(zoxide init zsh)"
 
 eval "$(direnv hook zsh)"
+
+. "$HOME/.local/bin/env"
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
