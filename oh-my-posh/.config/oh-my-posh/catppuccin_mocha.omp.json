@@ -3,6 +3,7 @@
   "palette": {
     "blue": "#89B4FA",
     "closer": "p:os",
+    "green": "#A6E3A1",
     "lavender": "#B4BEFE",
     "os": "#ACB0BE",
     "pink": "#F5C2E7"
@@ -63,12 +64,31 @@
         },
         {
           "properties": {
+            "cache_duration": "none",
+            "display_mode": "environment"
+          },
+          "foreground": "p:green",
+          "type": "python",
+          "style": "plain"
+        },
+        {
+          "properties": {
             "cache_duration": "none"
           },
           "template": "\uf105",
           "foreground": "p:closer",
           "type": "text",
           "style": "plain"
+        },
+        {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "type": "aws",
+          "style": "plain",
+          "foreground": "#ffffff",
+          "background": "#FFA400",
+          "template": "  {{.Profile}}{{if .Region}}@{{.Region}}{{end}}"
         }
       ]
     }
