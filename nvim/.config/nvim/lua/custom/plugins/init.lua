@@ -11,6 +11,17 @@ return {
       'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
       'MunifTanjim/nui.nvim',
     },
+    config = function()
+      require('neo-tree').setup {
+        filesystem = {
+          filtered_items = {
+            visible = true, -- This makes hidden files visible
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
+        },
+      }
+    end,
   },
   {
     'catppuccin/nvim',
@@ -69,6 +80,27 @@ return {
   {
     'codevbus/git-remote.nvim',
     branch = 'update_dir_structure',
+  },
+
+  -- Fugitive - Git integration
+  {
+    'tpope/vim-fugitive',
+    cmd = {
+      'G',
+      'Git',
+      'Gdiffsplit',
+      'Gread',
+      'Gwrite',
+      'Ggrep',
+      'GMove',
+      'GDelete',
+      'GBrowse',
+      'GRemove',
+      'GRename',
+      'Glgrep',
+      'Gedit'
+    },
+    ft = {'fugitive'}
   },
 
   {
@@ -155,4 +187,13 @@ return {
   -- Visual mode bind formats with the selected lines.
   vim.keymap.set('v', '<leader>ww', '<esc><cmd>lua require("git_remote").openSelection()<CR>', { silent = true, desc = 'Open remote git URL in browser' }),
   vim.keymap.set('v', '<leader>wy', '<esc><cmd>lua require("git_remote").yankSelection()<CR>', { silent = true, desc = 'Yank remote git URL' }),
+
+  -- Fugitive keymaps
+  vim.keymap.set('n', '<leader>gs', '<cmd>Git<CR>', { desc = '[G]it [S]tatus' }),
+  vim.keymap.set('n', '<leader>gd', '<cmd>Gdiffsplit<CR>', { desc = '[G]it [D]iff split' }),
+  vim.keymap.set('n', '<leader>gc', '<cmd>Git commit<CR>', { desc = '[G]it [C]ommit' }),
+  vim.keymap.set('n', '<leader>gp', '<cmd>Git push<CR>', { desc = '[G]it [P]ush' }),
+  vim.keymap.set('n', '<leader>gl', '<cmd>Git pull<CR>', { desc = '[G]it Pu[l]l' }),
+  vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<CR>', { desc = '[G]it [B]lame' }),
+  vim.keymap.set('n', '<leader>gL', '<cmd>Git log<CR>', { desc = '[G]it [L]og' }),
 }
