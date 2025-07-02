@@ -41,13 +41,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-local "~/Documents/org/")
-(setq org-pkm "~/Dropbox/beorg/org/")
-(setq org-projects "~/Dropbox/org/")
-(setq org-agenda-files (list org-local (concat org-projects "freelance/")
-                       (concat org-pkm "inbox.org")
-                       (concat org-pkm "contentsprocket.org")
-                       (concat org-projects "projects.org")))
+(setq org-local "~/org/")
+(setq org-agenda-files (list org-local))
 (setq org-refile-targets '((nil :maxlevel . 9)
       (org-agenda-files :maxlevel . 9)))
 
@@ -59,9 +54,9 @@
 
 (global-auto-revert-mode t)
 ;; Set default transparency mode
-(add-to-list 'default-frame-alist '(alpha . 85))
+(add-to-list 'default-frame-alist '(alpha . 95))
 
-(use-package autothemer
+(use-package! autothemer
   :ensure t)
 
 (setq doom-theme 'catppuccin)
@@ -103,10 +98,6 @@
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
-;;; Org roam
-(after! org
-  (setq org-roam-directory (concat org-pkm "2b/org"))); they are implemented.
-
 (after! org-roam
   :ensure t
   :init
@@ -120,9 +111,3 @@
 (use-package! websocket
     :after org)
 
-(use-package! org-roam-ui
-    :after org ;; or :after o
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t))
