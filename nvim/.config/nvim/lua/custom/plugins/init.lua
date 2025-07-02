@@ -71,6 +71,82 @@ return {
     branch = 'update_dir_structure',
   },
 
+  {
+    'nvim-orgmode/orgmode',
+    event = 'VeryLazy',
+    ft = { 'org' },
+    config = function()
+      require('orgmode').setup {
+        -- your agenda & default notes
+        org_agenda_files = { '~/org/**/*' },
+        org_default_notes_file = '~/org/refile.org',
+
+        -- capture templates
+        org_capture_templates = {
+          j = {
+            description = 'Journal / Daily Accomplishments',
+            template = table.concat({
+              '** %^{Title} \n',
+              '  :PROPERTIES:\n',
+              '  :CAPTURED: %U\n',
+              '  :END:\n',
+              '  %?\n',
+            }, ''),
+            target = '~/org/journal.org',
+            datetree = true,
+          },
+          c = {
+            description = 'Code TODO (with link)',
+            template = table.concat({
+              '* TODO %^{Title} \n',
+              '  :PROPERTIES:\n',
+              '  :CAPTURED: %U\n',
+              '  :SOURCE: %a\n',
+              '  :END:\n',
+              '%?\n',
+            }, ''),
+            target = '~/org/code_todo.org',
+            datetree = true,
+          },
+          t = {
+            description = 'General TODO',
+            template = table.concat({
+              '* TODO %^{Title} \n',
+              '  :PROPERTIES:\n',
+              '  :CAPTURED: %U\n',
+              '  :END:\n',
+              '%?\n',
+            }, ''),
+            target = '~/org/todo.org',
+          },
+          n = {
+            description = 'General Note',
+            template = table.concat({
+              '** %^{Title} \n',
+              '  :PROPERTIES:\n',
+              '  :CAPTURED: %U\n',
+              '  :END:\n',
+              '  %?\n',
+            }, ''),
+            target = '~/org/notes.org',
+            datetree = true,
+          },
+          w = {
+            description = 'Weekly Review',
+            template = table.concat({
+              '\n* Weekly Review – Week %<%V>, %<%Y>\n',
+              '  :PROPERTIES:\n',
+              '  :REVIEWED: %U\n',
+              '  :END:\n\n',
+              '  %?',
+            }, ''),
+            target = '~/org/reviews.org',
+          },
+        },
+      }
+    end,
+  },
+
   -- TODO move to custom commands init
   vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' }),
   -- Normal mode bind formats the current line number.
