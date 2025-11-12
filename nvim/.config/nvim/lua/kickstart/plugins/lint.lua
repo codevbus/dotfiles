@@ -6,7 +6,6 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        python = { 'ruff' }, -- Using ruff (already installed)
         terraform = { 'tflint' }, -- Using tflint (already installed)
         yaml = { 'yamllint' }, -- Using yamllint (already installed)
         sh = { 'shellcheck' }, -- Will be installed

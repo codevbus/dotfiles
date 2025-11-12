@@ -685,25 +685,22 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
-        pylsp = {
+        pyright = {
           settings = {
-            pylsp = {
-              plugins = {
-                pycodestyle = {
-                  enabled = false,
-                  ignore = { 'E501' },
+            python = {
+              analysis = {
+                typeCheckingMode = 'basic', -- or 'strict' if you want more aggressive type checking
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedImport = false, -- Let ruff handle unused imports
+                  reportUnusedVariable = false, -- Let ruff handle unused variables
                 },
-                pydocstyle = { enabled = false },
-                pylint = { enabled = false },
-                flake8 = {
-                  enabled = true,
-                  ignore = { 'E501' },
-                },
-                mypy = { enabled = true },
               },
             },
           },
         },
+        ruff = {}, -- Modern ruff LSP server for linting and formatting
         gopls = {}, -- Go LSP (already installed in Mason)
         jsonls = {}, -- JSON LSP (already installed in Mason)
         terraformls = {}, -- Terraform LSP
@@ -751,6 +748,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'pyright', -- Python LSP
+        'ruff', -- Modern ruff LSP server (not ruff-lsp which is deprecated)
         'terraform-ls', -- Terraform LSP
         'yaml-language-server', -- YAML LSP
         'bash-language-server', -- Bash LSP
