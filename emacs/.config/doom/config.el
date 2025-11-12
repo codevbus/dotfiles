@@ -129,3 +129,71 @@
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
           org-roam-ui-update-on-save t))
+
+(defun my/find-nobacklink-daily-notes()
+  "Find daily notes with zero connections."
+  (interactive)
+  (let ((results (org-roam-db-query
+                   [:select [nodes:file nodes:title
+                            (as [:select (funcall count links:source)
+                                 :from links
+                                 :where (and (= links:source nodes:id)
+                                            (= links:type "id"))] outgoing)
+                            (as [:select (funcall count links:dest)
+                                 :from links
+                                 :where (and (= links:dest nodes:id)
+                                            (= links:type "id"))] incoming)]
+                    :from nodes
+                    :where (like nodes:file "%/daily/%")])))
+    (with-current-buffer (get-buffer-create "*Isolated Daily Notes*")
+      (erase-buffer)
+      (insert "Truly isolated daily notes (0 in, 0 out):\n\n")
+      (let ((isolated-count 0))
+        (dolist (result results)
+          (let ((file (nth 0 result))
+                (title (nth 1 result))
+                (outgoing (nth 2 result))
+                (incoming (nth 3 result)))
+            (when (and (= outgoing 0) (= incoming 0))
+              (insert-button (file-name-nondirectory file)
+                            'action (lambda (_) (find-file file))
+                            'follow-link t
+                            'help-echo file)
+              (insert (format " - %s\n" title))
+              (setq isolated-count (1+ isolated-count)))))
+        (goto-char (point-min))
+        (forward-line 2)
+        (insert (format "Found %d isolated daily notes\n\n" isolated-count)))
+      (pop-to-buffer (current-buffer)))))
+
+(defun my/find-duplicate-titles-or-aliases (search-term)
+  "Find all files with the same title or alias."
+  (interactive "sSearch for duplicate title/alias: ")
+  (let ((title-matches (org-roam-db-query
+                        [:select [nodes:file nodes:title]
+                         :from nodes
+                         :where (= nodes:title $s1)]
+                        search-term))
+        (alias-matches (org-roam-db-query
+                        [:select [nodes:file aliases:alias]
+                         :from [nodes aliases]
+                         :where (and (= nodes:id aliases:node-id)
+                                    (= aliases:alias $s1))]
+                        search-term)))
+    (with-current-buffer (get-buffer-create "*Duplicate Analysis*")
+      (erase-buffer)
+      (insert (format "Files with title '%s':\n" search-term))
+      (dolist (match title-matches)
+        (insert-button (file-name-nondirectory (car match))
+                      'action (lambda (_) (find-file (car match)))
+                      'follow-link t
+                      'help-echo (car match))
+        (insert (format " - %s\n" (cadr match))))
+      (insert (format "\nFiles with alias '%s':\n" search-term))
+      (dolist (match alias-matches)
+        (insert-button (file-name-nondirectory (car match))
+                      'action (lambda (_) (find-file (car match)))
+                      'follow-link t
+                      'help-echo (car match))
+        (insert (format " - %s\n" (cadr match))))
+      (pop-to-buffer (current-buffer)))))
