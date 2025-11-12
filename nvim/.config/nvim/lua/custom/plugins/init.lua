@@ -45,6 +45,7 @@ return {
   {
     'github/copilot.vim',
   },
+  'tpope/vim-fugitive',
   'christoomey/vim-tmux-navigator',
 
   vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' }),
