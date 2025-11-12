@@ -72,3 +72,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/catppuccin_mocha.omp.json)"
+eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"
+eval "$(direnv hook zsh)"
