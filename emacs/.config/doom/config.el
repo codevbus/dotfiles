@@ -41,10 +41,30 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-local "~/org/")
-(setq org-agenda-files (list org-local))
+(setq org-directory "~/org/")
+(setq org-agenda-files '("~/org/todo.org"
+                         "~/org/journal.org"
+                         "~/org/notes.org"
+                         "~/org/code_todo.org"
+                         "~/org/reviews.org"))
 (setq org-refile-targets '((nil :maxlevel . 9)
       (org-agenda-files :maxlevel . 9)))
+
+;; Show unscheduled TODO items in agenda
+(setq org-agenda-include-deadlines t)
+(setq org-agenda-include-diary nil)
+(setq org-agenda-todo-ignore-scheduled nil)
+(setq org-agenda-todo-ignore-deadlines nil)
+(setq org-agenda-todo-ignore-with-date nil)
+
+;; Custom agenda view that includes unscheduled TODOs
+(setq org-agenda-custom-commands
+      '(("d" "Daily agenda and all TODOs"
+         ((agenda "" ((org-agenda-span 1)))
+          (alltodo "" ((org-agenda-overriding-header "All TODOs:")))))
+        ("w" "Weekly agenda and all TODOs"
+         ((agenda "" ((org-agenda-span 7)))
+          (alltodo "" ((org-agenda-overriding-header "All TODOs:")))))))
 
 
 ;; General config
