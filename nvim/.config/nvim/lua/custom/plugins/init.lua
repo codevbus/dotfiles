@@ -98,9 +98,9 @@ return {
       'GRemove',
       'GRename',
       'Glgrep',
-      'Gedit'
+      'Gedit',
     },
-    ft = {'fugitive'}
+    ft = { 'fugitive' },
   },
 
   {
@@ -179,6 +179,19 @@ return {
     end,
   },
 
+  {
+    'armyers/Vim-Jinja2-Syntax',
+    ft = { 'jinja', 'jinja2', 'j2', 'yaml.j2' },
+  },
+
+  {
+    'sheerun/vim-polyglot',
+    init = function()
+      -- Disable conflicting syntax plugins if needed
+      vim.g.polyglot_disabled = { 'sensible' }
+    end,
+  },
+
   -- TODO move to custom commands init
   vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' }),
   -- Normal mode bind formats the current line number.
@@ -196,4 +209,12 @@ return {
   vim.keymap.set('n', '<leader>gl', '<cmd>Git pull<CR>', { desc = '[G]it Pu[l]l' }),
   vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<CR>', { desc = '[G]it [B]lame' }),
   vim.keymap.set('n', '<leader>gL', '<cmd>Git log<CR>', { desc = '[G]it [L]og' }),
+
+  -- Custom filetype detection for YAML Jinja2 templates
+  vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = "*.yaml.j2",
+    callback = function()
+      vim.bo.filetype = "yaml_jinja2"
+    end
+  }),
 }
