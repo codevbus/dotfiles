@@ -135,10 +135,10 @@ bindsym $mod+d exec --no-startup-id ~/.config/rofi/scripts/launcher_t1
 bindsym $mod+p exec --no-startup-id ~/.config/rofi/applets/bin/powermenu.sh
 
 # Take screenshot to clipboard
-bindsym $mod+Shift+s exec maim -s -u | xclip -selection clipboard -t image/png -i
+bindsym --release $mod+Shift+s exec maim -s -u | xclip -selection clipboard -t image/png -i
 
 # Take screenshot to file
-bindsym $mod+Shift+f exec maim -s -u ~/Pictures/screenshots/screenshot-$(date +%s).png
+bindsym --release $mod+Shift+f exec maim -s -u ~/Pictures/screenshots/screenshot-$(date +%s).png
 
 # set border to none
 bindsym $mod+u border none
