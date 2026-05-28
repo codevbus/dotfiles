@@ -159,3 +159,32 @@
   (dolist (k '("C-h" "C-j" "C-k" "C-l"))
     (add-to-list 'vterm-keymap-exceptions k)))
 
+;; GTD-style capture: fast path always lands in inbox.org; refile during review.
+;; Bound to `SPC X' in Doom.
+(after! org
+  (setq org-capture-templates
+        '(("t" "Task → inbox" entry
+           (file "~/org/inbox.org")
+           "* TODO %?\n:PROPERTIES:\n:CAPTURED: %U\n:END:\n" :prepend t)
+          ("T" "Task with link → inbox" entry
+           (file "~/org/inbox.org")
+           "* TODO %?\n:PROPERTIES:\n:CAPTURED: %U\n:END:\n%a\n" :prepend t)
+          ("n" "Note → inbox" entry
+           (file "~/org/inbox.org")
+           "* %? :note:\n:PROPERTIES:\n:CAPTURED: %U\n:END:\n" :prepend t)
+          ("j" "Journal entry" entry
+           (file+olp+datetree "~/org/journal.org")
+           "**** %?\n:PROPERTIES:\n:CAPTURED: %U\n:END:\n")
+          ("c" "Code TODO (with file link)" entry
+           (file "~/org/code_todo.org")
+           "* TODO %?\n:PROPERTIES:\n:CAPTURED: %U\n:END:\n%a\n" :prepend t)
+          ("r" "Code TODO with selected region" entry
+           (file "~/org/code_todo.org")
+           "* TODO %?\n:PROPERTIES:\n:CAPTURED: %U\n:END:\n%a\n#+begin_src %F\n%i\n#+end_src\n" :prepend t)))
+
+  ;; Refile targets: any heading up to level 3 across agenda files.
+  ;; `SPC m r r' (or C-c C-w) on an inbox item moves it to the right file.
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3))
+        org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil
+        org-refile-allow-creating-parent-nodes 'confirm))
