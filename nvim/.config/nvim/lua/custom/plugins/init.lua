@@ -170,68 +170,66 @@ return {
     ft = { 'org' },
     config = function()
       require('orgmode').setup {
-        -- your agenda & default notes
         org_agenda_files = { '~/org/**/*' },
-        org_default_notes_file = '~/org/refile.org',
+        org_default_notes_file = '~/org/inbox.org', -- Changed from refile.org
 
-        -- capture templates
         org_capture_templates = {
+          -- Quick capture - lowest friction, goes to inbox
+          i = {
+            description = 'Inbox (quick capture)',
+            template = '* %?\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n',
+            target = '~/org/inbox.org',
+            headline = 'Inbox',
+          },
+
+          -- TODO that needs action - also goes to inbox for triage
+          t = {
+            description = 'TODO (to inbox)',
+            template = '* TODO %^{Title}\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n  %?',
+            target = '~/org/inbox.org',
+            headline = 'Inbox',
+          },
+
+          -- Journal entry - datetree in journal.org
           j = {
-            description = 'Journal / Daily Accomplishments',
-            template = table.concat({
-              '** %^{Title} \n',
-              '  :PROPERTIES:\n',
-              '  :CAPTURED: %U\n',
-              '  :END:\n',
-              '  %?\n',
-            }, ''),
+            description = 'Journal entry',
+            template = '**** %^{What did you do?}\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n  %?',
             target = '~/org/journal.org',
             datetree = true,
           },
+
+          -- Code TODO with source link - stays in code_todo.org
           c = {
-            description = 'Code TODO (with link)',
-            template = table.concat({
-              '* TODO %^{Title} \n',
-              '  :PROPERTIES:\n',
-              '  :CAPTURED: %U\n',
-              '  :SOURCE: %a\n',
-              '  :END:\n',
-              '%?\n',
-            }, ''),
+            description = 'Code TODO (with source link)',
+            template = '**** TODO %^{Title}\n  :PROPERTIES:\n  :CAPTURED: %U\n  :SOURCE: %a\n  :END:\n  %?',
             target = '~/org/code_todo.org',
             datetree = true,
           },
-          t = {
-            description = 'General TODO',
-            template = table.concat({
-              '* TODO %^{Title} \n',
-              '  :PROPERTIES:\n',
-              '  :CAPTURED: %U\n',
-              '  :END:\n',
-              '%?\n',
-            }, ''),
-            target = '~/org/todo.org',
+
+          -- Meeting notes - to inbox, refile later
+          m = {
+            description = 'Meeting notes',
+            template = '* %^{Meeting with?} :meeting:\n  :PROPERTIES:\n  :CAPTURED: %U\n  :END:\n** Attendees\n   %?\n** Notes\n** Action Items',
+            target = '~/org/inbox.org',
+            headline = 'Inbox',
           },
-          n = {
-            description = 'General Note',
-            template = table.concat({
-              '** %^{Title} \n',
-              '  :PROPERTIES:\n',
-              '  :CAPTURED: %U\n',
-              '  :END:\n',
-              '  %?\n',
-            }, ''),
-            target = '~/org/notes.org',
-            datetree = true,
-          },
+
+          -- Weekly review template
           w = {
             description = 'Weekly Review',
             template = table.concat({
               '\n* Weekly Review – Week %<%V>, %<%Y>\n',
               '  :PROPERTIES:\n',
               '  :REVIEWED: %U\n',
+              '  :BUSINESS_WEEK: \n',
               '  :END:\n\n',
-              '  %?',
+              '** Accomplishments This Week\n',
+              '*** Daily Accomplishments (from journal.org)\n',
+              '   %?\n',
+              '*** Completed TODOs\n',
+              '** Git Activity Summary\n',
+              '** Notes for Next Week\n',
+              '** Action Items (Incomplete TODOs)\n',
             }, ''),
             target = '~/org/reviews.org',
           },
@@ -272,10 +270,10 @@ return {
   vim.keymap.set('n', '<leader>gL', '<cmd>Git log<CR>', { desc = '[G]it [L]og' }),
 
   -- Custom filetype detection for YAML Jinja2 templates
-  vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-    pattern = "*.yaml.j2",
+  vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    pattern = '*.yaml.j2',
     callback = function()
-      vim.bo.filetype = "yaml_jinja2"
-    end
+      vim.bo.filetype = 'yaml_jinja2'
+    end,
   }),
 }
