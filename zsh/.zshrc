@@ -1,6 +1,7 @@
 #!/bin/zsh
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 
 # source antidote
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
@@ -22,6 +23,18 @@ bindkey '^[[B' history-substring-search-down
 alias ls='eza'
 alias cat='bat'
 alias history='history 0'
+
+# Emacs daemon/client
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -c"
+alias e='emacsclient -c -n'
+alias et='emacsclient -t'
+
+# Quick org capture (fallback for terminal/SSH)
+cap() {
+  local ts=$(date '+%Y-%m-%d %a %H:%M')
+  printf '** %s\n   :PROPERTIES:\n   :CAPTURED: [%s]\n   :END:\n' "$*" "$ts" >> ~/org/inbox.org
+}
 
 # hist config
 # https://www.reddit.com/r/zsh/comments/13jg6ru/nomyzsh_killed_my_history/jkg04xo/
@@ -72,9 +85,12 @@ eval "$(zoxide init zsh)"
 
 eval "$(direnv hook zsh)"
 
+eval "$(mise activate zsh)"
+
 . "$HOME/.local/bin/env"
 
-# Amazon Q post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
-
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
