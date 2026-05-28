@@ -70,6 +70,10 @@
 (transient-mark-mode 1)
 (setq shell-file-name "/bin/zsh")
 
+;; mac meta key hack
+(setq mac-option-modifier 'meta)
+(setq mac-right-option-modifier 'meta)
+
 (global-auto-revert-mode t)
 ;; Set default transparency mode
 (add-to-list 'default-frame-alist '(alpha . 95))
