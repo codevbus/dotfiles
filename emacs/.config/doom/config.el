@@ -120,6 +120,21 @@
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
+;; Bound native-comp worker concurrency so a daemon crash can't orphan dozens
+;; of stuck batch subprocesses.
+(setq native-comp-async-jobs-number 2)
+
+;; Drain the comp queue and signal any in-flight async compile workers before
+;; emacs exits, so they don't survive as PPID-1 zombies.
+(add-hook 'kill-emacs-hook
+          (lambda ()
+            (when (boundp 'comp-files-queue)
+              (setq comp-files-queue nil))
+            (dolist (proc (process-list))
+              (when (and (process-live-p proc)
+                         (string-match-p "async-native-compile\\|comp-async"
+                                         (process-name proc)))
+                (ignore-errors (kill-process proc))))))
 
 (use-package! websocket
     :after org)
