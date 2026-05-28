@@ -42,14 +42,12 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
-(setq org-agenda-files '("~/org/todo.org"
+(setq org-agenda-files '("~/org/inbox.org"
+                         "~/org/todo.org"
                          "~/org/journal.org"
                          "~/org/notes.org"
                          "~/org/code_todo.org"
                          "~/org/reviews.org"))
-(setq org-refile-targets '((nil :maxlevel . 9)
-      (org-agenda-files :maxlevel . 9)))
-
 ;; Show unscheduled TODO items in agenda
 (setq org-agenda-include-deadlines t)
 (setq org-agenda-include-diary nil)
