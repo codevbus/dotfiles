@@ -120,15 +120,6 @@
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
-(after! org-roam
-  :ensure t
-  :init
-  (setq org-roam-capture-templates
-        '(
-          ("d" "default" plain
-           "\n\n- %?"
-           :target (file+head "${slug}.org" "#+TITLE: ${title}\n")
-           :unnarrowed t))))
 
 (use-package! websocket
     :after org)
