@@ -143,3 +143,19 @@
 (after! eglot
   (add-to-list 'eglot-server-programs
                '(python-mode . ("ty" "server"))))
+
+(setq vterm-term-environment-variable "xterm-256color")
+
+;; Unified window navigation on C-h/j/k/l (parity with vim/tmux muscle memory).
+;; Normal/visual/motion only — leaves insert-state C-h as backspace.
+;; Use <f1> for help (already works) since C-h is now shadowed.
+(map! :nvm "C-h" #'evil-window-left
+      :nvm "C-j" #'evil-window-down
+      :nvm "C-k" #'evil-window-up
+      :nvm "C-l" #'evil-window-right)
+
+;; vterm swallows C-h/j/k/l by default; let window navigation win.
+(after! vterm
+  (dolist (k '("C-h" "C-j" "C-k" "C-l"))
+    (add-to-list 'vterm-keymap-exceptions k)))
+
