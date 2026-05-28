@@ -139,3 +139,7 @@
 (use-package! websocket
     :after org)
 
+;; python lsp
+(after! eglot
+  (add-to-list 'eglot-server-programs
+               '(python-mode . ("ty" "server"))))
