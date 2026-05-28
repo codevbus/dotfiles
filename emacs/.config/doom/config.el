@@ -188,3 +188,50 @@
         org-refile-use-outline-path 'file
         org-outline-path-complete-in-steps nil
         org-refile-allow-creating-parent-nodes 'confirm))
+
+;; tmux-sessionizer for Emacs: discover repos, pick one, open it in its own workspace.
+(defvar mvb/sessionizer-roots
+  '("~/boldpenguin" "~/dotfiles" "~/code" "~/projects")
+  "Directories searched for git repositories.")
+
+(defun mvb/sessionizer--repos ()
+  "Return unique repo roots found under `mvb/sessionizer-roots'."
+  (let ((roots (cl-remove-if-not #'file-directory-p
+                                 (mapcar #'expand-file-name mvb/sessionizer-roots))))
+    (when roots
+      (delete-dups
+       (mapcar (lambda (p)
+                 (directory-file-name (file-name-directory p)))
+               (split-string
+                (shell-command-to-string
+                 (format "find %s -maxdepth 4 -name .git -type d 2>/dev/null"
+                         (mapconcat #'shell-quote-argument roots " ")))
+                "\n" t))))))
+
+(defun mvb/sessionizer ()
+  "Pick a git repo and open it in a dedicated workspace with dired + vterm.
+Re-entering an existing workspace switches to it without rebuilding panes."
+  (interactive)
+  (let* ((repos (or (mvb/sessionizer--repos)
+                    (user-error "No repos found under %s" mvb/sessionizer-roots)))
+         (choice (completing-read "Project: " repos nil t))
+         (name (file-name-nondirectory (directory-file-name choice)))
+         (default-directory (file-name-as-directory choice))
+         (existed (member name (+workspace-list-names))))
+    (+workspace-switch name t)
+    ;; Tag with project root so Doom's SPC p p recognizes this workspace
+    ;; instead of uniquifying a new one (see +workspaces-switch-to-project-h).
+    (set-persp-parameter '+workspace-project
+                         (file-truename default-directory)
+                         (+workspace-get name))
+    (unless existed
+      (delete-other-windows)
+      (dired choice)
+      (when (fboundp '+vterm/here)
+        (let ((split-window-keep-point t))
+          (split-window-below (- (round (* 0.65 (window-total-height))))))
+        (other-window 1)
+        (+vterm/here nil)))))
+
+(map! :leader
+      :desc "Sessionizer (pick repo → workspace)" "p P" #'mvb/sessionizer)
