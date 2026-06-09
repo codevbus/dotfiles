@@ -106,6 +106,53 @@
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
+;; Python
+(add-hook! 'python-base-mode-hook 'pet-mode)
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((python-base-mode :language-id "python") . ("ty" "server"))))
+
+(add-hook 'python-base-mode-hook 'eglot-ensure)
+
+;; ty handles type checking; ruff handles lint diagnostics. eglot resets
+;; `flymake-diagnostic-functions' to its own backend, so add ruff back
+;; *after* eglot takes over the buffer.
+(after! flymake-ruff
+  (add-hook 'eglot-managed-mode-hook #'flymake-ruff-load))
+
+(after! flycheck
+  (add-to-list 'flycheck-disabled-checkers 'python-mypy)
+  (add-to-list 'flycheck-disabled-checkers 'python-pylint)
+  (add-to-list 'flycheck-disabled-checkers 'python-pyright)
+  (add-to-list 'flycheck-disabled-checkers 'python-flake8))
+
+;; Format on save with ruff (import sort + format), replacing black/isort.
+(after! apheleia
+  (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff)
+        (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff)))
+
+;; disable mypy
+(add-hook! 'python-base-mode-hook :append
+  (defun +py/trim-flycheck-checkers ()
+    (make-local-variable 'flycheck-disabled-checkers)
+    (dolist (c '(python-mypy python-pyright python-pycompile))
+      (cl-pushnew c flycheck-disabled-checkers))))
+
+;; Manual targeted ruff fix: sort imports + drop unused (I, F401) on the
+;; current file only. Uses the venv's ruff resolved via pet's exec-path.
+(defun my/ruff-fix-imports ()
+  "Sort and prune imports in the current file with ruff."
+  (interactive)
+  (when buffer-file-name
+    (save-buffer)
+    (let ((ruff (or (executable-find "ruff") "ruff")))
+      (call-process ruff nil nil nil
+                    "check" "--select" "I,F401" "--fix" buffer-file-name))
+    (revert-buffer t t t)))
+(map! :after python
+      :localleader :map python-base-mode-map
+      "i" #'my/ruff-fix-imports)
 ;;; Org roam
 (after! org
   (setq org-roam-directory (concat org-pkm "2b/org"))); they are implemented.
