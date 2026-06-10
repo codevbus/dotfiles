@@ -1,1 +1,5 @@
 setxkbmap -option "caps:escape"
+
+# Java/Swing apps (e.g. thinkorswim) render glitched, flashing secondary windows
+# and lock up under non-reparenting WMs like i3. Use the JDK's non-reparenting path.
+export _JAVA_AWT_WM_NONREPARENTING=1
