@@ -1,0 +1,50 @@
+/* Waybar — Catppuccin Mocha, matching the old polybar look. */
+* {
+    font-family: "Hack Nerd Font Mono", monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(30, 30, 46, 0.85); /* base @ 85% */
+    color: #cdd6f4;                     /* text */
+    border-radius: 8px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 2px 1px;
+    color: #cdd6f4;
+    background: transparent;
+    border-radius: 4px;
+}
+#workspaces button.active {
+    color: #1e1e2e;          /* base */
+    background: #cba6f7;     /* mauve */
+}
+#workspaces button.urgent {
+    color: #1e1e2e;
+    background: #f38ba8;     /* red */
+}
+#workspaces button:hover {
+    background: #45475a;     /* surface1 */
+    color: #cdd6f4;
+}
+
+#window { color: #a6adc8; padding: 0 10px; }      /* subtext0 */
+
+#clock,
+#cpu, #memory, #disk, #temperature,
+#network, #pulseaudio, #tray, #custom-power {
+    padding: 0 10px;
+}
+
+#clock        { color: #89b4fa; }   /* blue */
+#disk         { color: #f9e2af; }   /* yellow */
+#memory       { color: #fab387; }   /* peach */
+#cpu          { color: #a6e3a1; }   /* green */
+#temperature  { color: #94e2d5; }   /* teal */
+#temperature.critical { color: #f38ba8; } /* red */
+#network      { color: #89dceb; }   /* sky */
+#pulseaudio   { color: #f5c2e7; }   /* pink */
+#custom-power { color: #f38ba8; padding-right: 14px; } /* red */
