@@ -18,13 +18,11 @@
 ------------------
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
--- Two stacked Samsung CRG9 ultrawides. Both EDIDs advertise 3840x1080 as the
--- "preferred" mode, which Hyprland picks by default -- wrong resolution, and a
--- prime suspect for the atomic page-flip EBUSY freeze on these panels. Force
--- native 5120x1440 and stack DP-2 (top) over DP-1 (bottom), matching niri.
-hl.monitor({ output = "DP-2", mode = "5120x1440@119.97", position = "0x0", scale = 1 })
-hl.monitor({ output = "DP-1", mode = "5120x1440@119.97", position = "0x1440", scale = 1 })
--- Fallback for any other/unknown output.
+-- Per-monitor topology is machine-specific; set it in local.lua (gitignored).
+-- Copy local.lua.example to local.lua on a new machine.
+local hypr_dir = debug.getinfo(1, "S").source:match("^@(.*/)") or (os.getenv("HOME") .. "/.config/hypr/")
+pcall(dofile, hypr_dir .. "local.lua")
+-- Fallback for any output not configured in local.lua.
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
 
 ---------------------
@@ -48,7 +46,7 @@ local menu = "fuzzel"
 hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
 	hl.exec_cmd("dunst")
-	hl.exec_cmd("swaybg -i /home/mike/Pictures/Wallpapers/foggy-winter-morning-5120x1440.jpg -m fill")
+	if WALLPAPER then hl.exec_cmd("swaybg -i " .. WALLPAPER .. " -m fill") end
 	hl.exec_cmd("swayidle -w before-sleep 'swaylock -f' lock 'swaylock -f'")
 end)
 

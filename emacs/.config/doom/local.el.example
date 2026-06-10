@@ -1,0 +1,12 @@
+;;; local.el.example -*- lexical-binding: t; -*-
+;; Copy to local.el (gitignored) and fill in machine-specific values.
+
+;; Where your org/PKM trees live on this machine.
+(setq org-local    "~/org/"
+      org-pkm      "~/org/pkm/"
+      org-projects "~/org/projects/")
+
+;; TRAMP bookmarks for my/homelab-connect: (LABEL . PATH) pairs.
+(setq my/homelab-hosts
+      '(("example"      . "/ssh:example.lan:")
+        ("example|root" . "/ssh:example.lan|sudo:example.lan:")))

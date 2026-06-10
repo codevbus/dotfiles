@@ -1,2 +1,7 @@
 .DS_Store
 bin
+
+# Machine-local overrides (real paths, hosts, secrets). Track *.example instead.
+emacs/.config/doom/local.el
+emacs/.config/doom/custom.el
+hyprland/.config/hypr/local.lua

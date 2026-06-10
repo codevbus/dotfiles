@@ -29,10 +29,8 @@ fi
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# source local-specific config
+# source local-specific config (machine-specific paths/aliases live here)
 source "${HOME}/.config/local.zsh"
-
-alias luamake=/home/mike/build/lua-language-server/3rd/luamake/luamake
 
 # hist config
 # https://www.reddit.com/r/zsh/comments/13jg6ru/nomyzsh_killed_my_history/jkg04xo/

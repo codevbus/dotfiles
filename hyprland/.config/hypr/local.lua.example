@@ -1,0 +1,7 @@
+-- Copy to local.lua (gitignored) and set machine-specific monitors + wallpaper.
+
+-- One hl.monitor{} call per output. See https://wiki.hypr.land/Configuring/Basics/Monitors/
+hl.monitor({ output = "DP-1", mode = "preferred", position = "0x0", scale = 1 })
+
+-- Absolute path to wallpaper image (swaybg). Unset = no wallpaper.
+WALLPAPER = os.getenv("HOME") .. "/Pictures/wallpaper.jpg"
