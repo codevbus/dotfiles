@@ -48,7 +48,7 @@ exec_always --no-startup-id wmname LG3D
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # start picom compositor
-exec --no-startup-id picom -b
+exec_always --no-startup-id sh -c 'pkill -x picom; sleep 0.5; exec picom'
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
