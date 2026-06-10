@@ -74,7 +74,6 @@ exec --no-startup-id sh -c '/usr/bin/nvidia-settings --load-config-only'
 
 # Set background/wallpaper
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id nitrogen --restore
 
 # Start polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
