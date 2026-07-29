@@ -154,10 +154,15 @@
       :nvm "C-k" #'evil-window-up
       :nvm "C-l" #'evil-window-right)
 
-;; vterm swallows C-h/j/k/l by default; let window navigation win.
-(after! vterm
-  (dolist (k '("C-h" "C-j" "C-k" "C-l"))
-    (add-to-list 'vterm-keymap-exceptions k)))
+(defun my/ghostel-workspace ()
+  "Open a ghostel terminal scoped to the current Doom workspace."
+  (interactive)
+  (let ((ghostel-buffer-name (format "*ghostel[%s]*" (+workspace-current-name))))
+    (ghostel)))
+
+(map! :leader
+      :desc "ghostel (workspace)" "o t" #'my/ghostel-workspace
+      :desc "ghostel (new)"       "o T" (cmd! (ghostel '(4))))
 
 ;; GTD-style capture: fast path always lands in inbox.org; refile during review.
 ;; Bound to `SPC X' in Doom.
@@ -209,7 +214,7 @@
                 "\n" t))))))
 
 (defun mvb/sessionizer ()
-  "Pick a git repo and open it in a dedicated workspace with dired + vterm.
+  "Pick a git repo and open it in a dedicated workspace with dired + ghostel.
 Re-entering an existing workspace switches to it without rebuilding panes."
   (interactive)
   (let* ((repos (or (mvb/sessionizer--repos)
@@ -227,11 +232,11 @@ Re-entering an existing workspace switches to it without rebuilding panes."
     (unless existed
       (delete-other-windows)
       (dired choice)
-      (when (fboundp '+vterm/here)
-        (let ((split-window-keep-point t))
-          (split-window-below (- (round (* 0.65 (window-total-height))))))
-        (other-window 1)
-        (+vterm/here nil)))))
+      (let ((split-window-keep-point t))
+        (split-window-below (- (round (* 0.65 (window-total-height))))))
+      (other-window 1)
+      (ghostel))))
 
-(map! :leader
-      :desc "Sessionizer (pick repo → workspace)" "p P" #'mvb/sessionizer)
+(after! projectile
+  (map! :leader
+        :desc "Sessionizer (pick repo → workspace)" "p P" #'mvb/sessionizer))
