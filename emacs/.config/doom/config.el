@@ -216,14 +216,33 @@
   ;; Auto-discover projects on startup so the list is pre-loaded
   (projectile-discover-projects-in-search-path))
 
-;; Map workspace names to their project roots so projectile always knows where it is
-(defvar my/workspace-project-paths (make-hash-table :test 'equal)
-  "Maps workspace names to their project root paths.")
+;; Terminal opener for a fresh session's pane. Per-machine swap: `+vterm/here'
+;; on Linux (vterm), `ghostel' on the Mac ghostty/ghostel setup. Set to nil to
+;; skip the terminal pane entirely.
+(defvar my/sessionizer-terminal-fn #'+vterm/here
+  "Function (called with no args) that opens a terminal in the current
+window, rooted at `default-directory'.")
+
+(defvar my/sessionizer-terminal-height 0.35
+  "Fraction of the frame height given to the sessionizer terminal pane.")
+
+(defun my/sessionizer--setup-layout (dir)
+  "Give a fresh workspace a dired-over-terminal layout, both rooted at DIR."
+  (let ((default-directory (file-name-as-directory dir)))
+    (delete-other-windows)
+    (dired dir)
+    (when (functionp my/sessionizer-terminal-fn)
+      (let ((split-window-keep-point t))
+        (split-window-below (- (round (* my/sessionizer-terminal-height
+                                         (window-total-height))))))
+      (other-window 1)
+      (funcall my/sessionizer-terminal-fn))))
 
 (defun my/sessionizer ()
   "Switch to a project in its own workspace (like tmux sessionizer).
-If a workspace already exists for the project, switch to it.
-Otherwise create a new one. Single entry point for project switching."
+Projects are discovered via projectile; a fresh workspace opens dired over
+a terminal. Re-entering an existing workspace switches to it without
+rebuilding panes. Single entry point for project switching."
   (interactive)
   (let* ((projects (projectile-relevant-known-projects))
          (name-to-path (make-hash-table :test 'equal)))
@@ -241,24 +260,18 @@ Otherwise create a new one. Single entry point for project switching."
         (puthash name p name-to-path)))
     (let* ((selection (completing-read "Session: " (hash-table-keys name-to-path) nil t))
            (project-path (gethash selection name-to-path))
-           (workspace-name selection))
-      ;; Remember the project path for this workspace
-      (puthash workspace-name project-path my/workspace-project-paths)
-      ;; Switch to existing workspace or create new
-      (if (member workspace-name (+workspace-list-names))
-          (+workspace/switch-to workspace-name)
-        (+workspace/new workspace-name)
-        (projectile-switch-project-by-name project-path)))))
-
-;; When projectile can't find a root, fall back to the workspace's project
-(defadvice! my/projectile-workspace-root-a (fn &rest args)
-  "Use workspace's project root as fallback when projectile loses context."
-  :around #'projectile-project-root
-  (or (ignore-errors (apply fn args))
-      (and (fboundp '+workspace-current-name)
-           (bound-and-true-p persp-mode)
-           (ignore-errors (gethash (+workspace-current-name) my/workspace-project-paths)))
-      default-directory))
+           (existed (member selection (+workspace-list-names))))
+      ;; Switch to (or create) the workspace, then tag it with its project
+      ;; root via the persp parameter Doom itself reads
+      ;; (`+workspaces-switch-to-project-h', ws-param `+workspace-project'), so
+      ;; SPC p p / find-file resolve the root with no custom table or advice on
+      ;; the hot `projectile-project-root'.
+      (+workspace-switch selection t)
+      (set-persp-parameter '+workspace-project
+                           (file-truename project-path)
+                           (+workspace-get selection))
+      (unless existed
+        (my/sessionizer--setup-layout project-path)))))
 
 ;;; Terminal (multi-vterm)
 (use-package! multi-vterm
