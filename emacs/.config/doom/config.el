@@ -317,6 +317,10 @@ rebuilding panes. Single entry point for project switching."
       :desc "Switch buffer (workspace)" "," #'persp-switch-to-buffer
       :desc "Find file in project"      "." #'projectile-find-file
 
+      ;; Insert (extends Doom's SPC i menu)
+      (:prefix "i"
+       :desc "Yank as src block" "S" #'my/yank-as-src-block)
+
       ;; Homelab TRAMP
       (:prefix ("r" . "remote")
        :desc "Connect to host"    "c" #'my/homelab-connect
@@ -334,9 +338,21 @@ rebuilding panes. Single entry point for project switching."
 ;;; Format on save — only for specific modes
 (setq +format-on-save-enabled-modes '(python-mode go-mode nix-mode terraform-mode))
 
+;;; Insert helpers
+(defun my/yank-as-src-block (lang)
+  "Insert the latest kill at point, wrapped in an Org #+begin_src LANG block.
+Buffer-agnostic — just inserts text, so it works anywhere, not only Org."
+  (interactive (list (read-string "src language: " "emacs-lisp")))
+  (let ((text (string-trim-right (substring-no-properties (current-kill 0)))))
+    (insert (format "#+begin_src %s\n%s\n#+end_src\n" lang text))))
+
 ;;; Org roam
 (after! org
   (setq org-roam-directory (concat org-pkm "2b/org"))
+
+  ;; Keep pasted code's own indentation in src blocks — no org offset/reindent
+  (setq org-src-preserve-indentation t
+        org-edit-src-content-indentation 0)
 
   ;; TODO keywords — Ugmonk-inspired statuses
   (setq org-todo-keywords
